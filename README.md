@@ -98,7 +98,8 @@ Now, to create views that allow us to analyze the data you have several options 
     ORDER BY total.state;
 
 	CREATE VIEW map_storm_data AS
-	(SELECT s.state, s.state_fips, id.count injuries_death_count, s.count         	total_storms_count, round(((id.count::float/s.count::float)*         	100)::numeric, 2) percent
+	(SELECT s.state, s.state_fips, id.count injuries_death_count, s.count         	
+	total_storms_count, round(((id.count::float/s.count::float)*100)::numeric,2) percent
 	FROM injuries_deaths id
 	LEFT JOIN state_totals s ON id.state = s.state);
 	
