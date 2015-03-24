@@ -28,7 +28,7 @@ To create a surrogate primary key called id for this table, the following code i
 
 To load the data into the table, several options are available.  One option, though not the most efficient, is outlined below:
 
-1) a python script is written to read from each year's .csv file in our details_raw folder and creates newly formatted .csv files, excluding the unnecessary data.
+1) A python script is written to read from each year's .csv file in our details_raw folder and creates newly formatted .csv files, excluding the unnecessary data.
 
 	# data_loader.py
 	# reads .csv files in ./details_raw
@@ -98,7 +98,9 @@ Now, to create views that allow us to analyze the data you have several options 
     ORDER BY total.state;
 
 	CREATE VIEW map_storm_data AS
-	(SELECT s.state, s.state_fips, id.count injuries_death_count, s.count         	total_storms_count, round(((id.count::float/s.count::float)*         	100)::numeric, 2) percent
+	(SELECT s.state, s.state_fips, id.count injuries_death_count, s.count 
+	total_storms_count, 
+	round(((id.count::float/s.count::float)*100)::numeric,2) percent
 	FROM injuries_deaths id
 	LEFT JOIN state_totals s ON id.state = s.state)
 	
@@ -123,7 +125,7 @@ Now to create a single view that includes the desired calculations along with th
 	ON a.statefp::int = b.state_fips
 	
 	
-For constructing the application, we will use Leaflet and GeoJSON.  To do this, we will export the map as a shapefile, and use gdal to convert it to geojson.
+For constructing the application, we will use Leaflet and GeoJSON.  To do this, we will export the map as a shapefile, and use gdal to convert it to GeoJSON.
 
 The following code is executed in the command line for PostgreSQL to generate the shapefile and then convert to geojson:
 
