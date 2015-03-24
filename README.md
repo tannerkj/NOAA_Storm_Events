@@ -1,6 +1,6 @@
 ## Visualizing Percentage of Storms Resulting in Injuries/Deaths by State (1996 - 2014)
 
-Starting in 1996, [National Weather Service directive 10-1605](http://www.ncdc.noaa.gov/stormevents/pd01016005curr.pdf) mandated the reporting of 48 different weather events and its effects on the impacted community.  This tutorial aims to create a visualization focusing on the percent of injuries/deaths reported by state, and to identify which states 
+Starting in 1996, [National Weather Service directive 10-1605](http://www.ncdc.noaa.gov/stormevents/pd01016005curr.pdf) mandated the reporting of 48 different weather events and its effects on the impacted community.  This tutorial aims to create a visualization focusing on the percent of storms resulting in injuries/deaths reported by state, and to identify which states 
 have been more fortunate than others.  The data is provided by [NOAA](http://www.ncdc.noaa.gov/stormevents/ftp.jsp) in .csv files organized by individual year.
 
 The first step is to create the tables in PostgreSQL and load the data.  A new database is created and the following code executed to enable postgis:
@@ -34,8 +34,32 @@ To load the data into the table, several options are available.  One option, tho
 	# reads .csv files in ./details_raw
 	# creates new .csv files in a separate directory
 	
-	import os, csv	in_dir = "./details_raw"	def filter_fields(f):    	with open(root + "/" + f, "rb") as source:        	reader = csv.DictReader(source)        	outf = root + "/formatted/" + f        	with open(outf, "wb") as result:          		writer = csv.DictWriter(result, fieldnames = ['STATE', 'YEAR','STATE_FIPS', 
-          		'EVENT_TYPE', 'INJURIES_DIRECT', 'INJURIES_INDIRECT', 'DEATHS_DIRECT', 'DEATHS_INDIRECT'])            	print ("Writing", outf)            	writer.writeheader()            	for row in reader:                	writer.writerow({'STATE' : row['STATE'],                                 	'YEAR' : row['YEAR'],                                 	'STATE_FIPS' : row['STATE_FIPS'],                                 	'EVENT_TYPE' : row['EVENT_TYPE'],                                 	'INJURIES_DIRECT' : row['INJURIES_DIRECT'],                                 	'INJURIES_INDIRECT' : row['INJURIES_INDIRECT'],                                 	'DEATHS_DIRECT' : row['DEATHS_DIRECT'],                                 	'DEATHS_INDIRECT' : row['DEATHS_INDIRECT']})	for root, dirs, files in os.walk(in_dir):    	for f in files:        	filter_fields(f)
+	import os, csv
+
+	in_dir = "./details_raw"
+
+	def filter_fields(f):
+    	with open(root + "/" + f, "rb") as source:
+        	reader = csv.DictReader(source)
+        	outf = root + "/formatted/" + f
+        	with open(outf, "wb") as result:
+          		writer = csv.DictWriter(result, fieldnames = ['STATE', 'YEAR','STATE_FIPS', 
+          		'EVENT_TYPE', 'INJURIES_DIRECT', 'INJURIES_INDIRECT', 'DEATHS_DIRECT', 'DEATHS_INDIRECT'])
+            	print ("Writing", outf)
+            	writer.writeheader()
+            	for row in reader:
+                	writer.writerow({'STATE' : row['STATE'],
+                                 	'YEAR' : row['YEAR'],
+                                 	'STATE_FIPS' : row['STATE_FIPS'],
+                                 	'EVENT_TYPE' : row['EVENT_TYPE'],
+                                 	'INJURIES_DIRECT' : row['INJURIES_DIRECT'],
+                                 	'INJURIES_INDIRECT' : row['INJURIES_INDIRECT'],
+                                 	'DEATHS_DIRECT' : row['DEATHS_DIRECT'],
+                                 	'DEATHS_INDIRECT' : row['DEATHS_INDIRECT']})
+
+	for root, dirs, files in os.walk(in_dir):
+    	for f in files:
+        	filter_fields(f)
 	
 2) Using postgres command line tools for each csv file:
 
