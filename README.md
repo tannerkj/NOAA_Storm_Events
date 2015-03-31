@@ -1,6 +1,6 @@
 ## Visualizing Percentage of Storms Resulting in Injuries/Deaths by State (1996 - 2014)
 
-Starting in 1996, [National Weather Service directive 10-1605](http://www.ncdc.noaa.gov/stormevents/pd01016005curr.pdf) mandated the reporting of 48 different weather events and its effects on the impacted community.  This tutorial aims to create a visualization focusing on the percent of storms resulting in injuries/deaths reported by state, and to identify which states 
+Starting in 1996, [National Weather Service directive 10-1605](http://www.ncdc.noaa.gov/stormevents/pd01016005curr.pdf) mandated the reporting of 48 different types of weather events and their effects on the impacted community.  This tutorial aims to create a visualization focusing on the percent of storms resulting in injuries/deaths reported by state, and to identify which states 
 have been more fortunate than others.  The data is provided by [NOAA](http://www.ncdc.noaa.gov/stormevents/ftp.jsp) in .csv files organized by individual year.
 
 The first step is to create the tables in PostgreSQL and load the data.  A new database is created and the following code executed to enable postgis:
@@ -20,7 +20,7 @@ Next, the code to generate the table is executed:
 		deaths_indirect smallint
 	);
 	
-Included are the attributes we need for this application, along with additional data we may opt to use in the future for further analysis.
+Included are the attributes we need for this application, along with additional fields we may opt to use in the future for further analysis.
 
 To create a surrogate primary key called id for this table, the following code is executed:
 
