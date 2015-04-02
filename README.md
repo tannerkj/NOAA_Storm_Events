@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 ## Visualizing Percentage of Storms Resulting in Injuries/Deaths by State (1996 - 2014)
 
-Starting in 1996, [National Weather Service directive 10-1605](http://www.ncdc.noaa.gov/stormevents/pd01016005curr.pdf) mandated the reporting of 48 different weather events and its effects on the impacted community.  This tutorial aims to create a visualization focusing on the percent of storms resulting in injuries/deaths reported by state, and to identify which states 
+Starting in 1996, [National Weather Service directive 10-1605](http://www.ncdc.noaa.gov/stormevents/pd01016005curr.pdf) mandated the reporting of 48 different types of weather events and their effects on the impacted community.  This tutorial aims to create a visualization focusing on the percent of storms resulting in injuries/deaths reported by state, and to identify which states 
 have been more fortunate than others.  The data is provided by [NOAA](http://www.ncdc.noaa.gov/stormevents/ftp.jsp) in .csv files organized by individual year.
 
 The first step is to create the tables in PostgreSQL and load the data.  A new database is created and the following code executed to enable postgis:
@@ -21,7 +21,7 @@ Next, the code to generate the table is executed:
 		deaths_indirect smallint
 	);
 	
-Included are the attributes we need for this application, along with additional data we may opt to use in the future for further analysis.
+Included are the attributes we need for this application, along with additional fields we may opt to use in the future for further analysis.
 
 To create a surrogate primary key called id for this table, the following code is executed:
 
@@ -103,13 +103,13 @@ Now, to create views that allow us to analyze the data you have several options 
 	total_storms_count, 
 	round(((id.count::float/s.count::float)*100)::numeric,2) percent
 	FROM injuries_deaths id
-	LEFT JOIN state_totals s ON id.state = s.state)
+	LEFT JOIN state_totals s ON id.state = s.state);
 	
 A simple query to validate the data and identify the states with the highest percentage of storms resulting in injury/death:
 
 	SELECT *
 	FROM map_storm_data
-	ORDER BY percent DESC
+	ORDER BY percent DESC;
 	
 To generate a shapefile we can use to visualize our data,  download from TIGER the shapefile needed, and then use command line to convert it to the desired projection and import it into postgres.  In this case, I entered:
 
@@ -123,7 +123,7 @@ Now to create a single view that includes the desired calculations along with th
 	b.total_storms_count, b.percent, ST_Simplify(a.geom, 0.005) as geom
 	FROM states a
 	LEFT JOIN map_storm_data b
-	ON a.statefp::int = b.state_fips
+	ON a.statefp::int = b.state_fips;
 	
 	
 For constructing the application, we will use Leaflet and GeoJSON.  To do this, we will export the map as a shapefile, and use gdal to convert it to GeoJSON.
@@ -143,6 +143,7 @@ View application [here](http://tannerkj.github.io/NOAA_Storm_Events/index.html).
 	
 
 	
+<<<<<<< HEAD
 =======
 ## Visualizing Percentage of Storms Resulting in Injuries/Deaths by State (1996 - 2014)
 
@@ -287,3 +288,5 @@ View application [here](http://tannerkj.github.io/NOAA_Storm_Events/index.html).
 
 	
 >>>>>>> 2b6540277bdca0233abee5a9fb488765f38cac4d
+=======
+>>>>>>> 5b5c8c318cc8862f5ea62b233db537e256295cb3
