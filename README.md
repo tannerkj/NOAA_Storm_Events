@@ -126,7 +126,7 @@ Now to create a single view that includes the desired calculations along with th
 	ON a.statefp::int = b.state_fips;
 	
 	
-For constructing the application, we will use Leaflet and GeoJSON.  To do this, we will export the map as a shapefile, and use gdal to convert it to GeoJSON.
+For constructing the application, we will use Leaflet and GeoJSON.  To do this, we will export the map as a shapefile, and use [GDAL](http://www.gdal.org/) to convert it to GeoJSON.
 
 The following code is executed in the command line for PostgreSQL to generate the shapefile and then convert to geojson:
 
